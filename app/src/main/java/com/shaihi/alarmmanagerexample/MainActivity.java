@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.provider.Settings;
 
 public class MainActivity extends AppCompatActivity {
     private TextView timerText;
@@ -30,9 +31,15 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         timerText = findViewById(R.id.timerText);
         startButton = findViewById(R.id.startButton);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (!alarmManager.canScheduleExactAlarms()) {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+            startActivity(intent);
+        }
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
