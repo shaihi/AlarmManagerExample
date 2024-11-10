@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,8 +33,22 @@ public class MainActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timerText);
         startButton = findViewById(R.id.startButton);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCountdown();
+            }
+        });
+    }
+
+    private void startCountdown() {
+        long triggerTime = System.currentTimeMillis() + 10000; // 10 seconds from now
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+        timerText.setText("Timer started for 10 seconds");
     }
 }
