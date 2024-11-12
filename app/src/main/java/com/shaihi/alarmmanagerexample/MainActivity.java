@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private final String TIMER_FINISHED_ACTION = "com.shaihi.alarmmanagerexample.TIMER_FINISHED";
 
     // Receiver to listen for timer finished broadcasts
+    //This private Localreceiver can run on the UI thread.
+    // We "fire" this local message in the global AlarmBroadcastReceiver
     private final BroadcastReceiver timerFinishedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
